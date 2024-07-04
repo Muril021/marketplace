@@ -33,18 +33,20 @@ Route::prefix('/profile')
 
 require __DIR__.'/auth.php';
 
-Route::prefix('admin')
+Route::middleware(['auth', 'admin'])
+->prefix('/admin')
 ->group(function () {
   Route::get('/dashboard', [
     AdminController::class,
     'dashboard'
   ])->name('admin.dashboard');
-})->middleware('auth');
+});
 
-Route::prefix('vendor')
+Route::middleware(['auth', 'vendor'])
+->prefix('/vendor')
 ->group(function () {
   Route::get('/dashboard', [
     VendorController::class,
     'dashboard'
   ])->name('vendor.dashboard');
-})->middleware('auth');
+});
