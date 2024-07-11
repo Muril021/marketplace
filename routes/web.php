@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,8 @@ foreach (
 }
 
 require __DIR__.'/auth.php';
+
+Route::get('/admin/login', [
+  AdminController::class,
+  'login'
+  ])->name('admin.login');
