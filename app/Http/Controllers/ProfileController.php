@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use File;
 
 class ProfileController extends Controller
 {
@@ -21,10 +22,27 @@ class ProfileController extends Controller
         'required',
         'email',
         'unique:users,email,'.Auth::user()->id
-      ]
+      ],
+      'image' => ['image', 'max:2048']
     ]);
 
     $user = Auth::user();
+
+    if ($request->hasFile('image')) {
+      // verifica se a imagem existe e apaga
+      if (File::exists(public_path($user->image))) {
+        File::delete(public_path($user->image));
+      }
+
+      $image = $request->image;
+      $imageName = rand().$image->getClientOriginalName();
+      $image->move(public_path('uploads'), $imageName);
+
+      $path = "/uploads/".$imageName;
+
+      $user->image = $path;
+    }
+
     $user->name = $request->name;
     $user->email = $request->email;
     $user->save();
