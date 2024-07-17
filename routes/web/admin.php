@@ -21,4 +21,9 @@ Route::middleware(['auth', 'admin'])
     ProfileController::class,
     'update'
   ])->name('admin.profile.update');
+
+  Route::post('/profile/update_password', [
+    ProfileController::class,
+    'updatePassword'
+  ])->name('admin.profile.password');
 });
