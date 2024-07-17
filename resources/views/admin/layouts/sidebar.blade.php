@@ -4,7 +4,7 @@
       <a href="{{ route('admin.dashboard') }}">Marketplace</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-      <a href="{{ route('admin.dashboard') }}">St</a>
+      <a href="{{ route('admin.dashboard') }}">MKT</a>
     </div>
     <ul class="sidebar-menu">
       <li class="menu-header">Painel</li>
