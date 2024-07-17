@@ -2,72 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-  public function index()
+  /**
+   * Display the user's profile form.
+   */
+  public function edit(Request $request): View
   {
-    return view('admin.profile.index');
+    return view('profile.edit', [
+      'user' => $request->user(),
+    ]);
   }
 
-  public function update(Request $request)
+  /**
+   * Update the user's profile information.
+   */
+  public function update(ProfileUpdateRequest $request): RedirectResponse
   {
-    // dd($request->all());
-    $request->validate([
-      'name' => ['required', 'max:100'],
-      'email' => [
-        'required',
-        'email',
-        'unique:users,email,'.Auth::user()->id
-      ],
-      'image' => ['image', 'max:2048']
-    ]);
+    $request->user()->fill($request->validated());
 
-    $user = Auth::user();
-
-    if ($request->hasFile('image')) {
-      // verifica se a imagem existe e apaga
-      if (File::exists(public_path($user->image))) {
-        File::delete(public_path($user->image));
-      }
-
-      $image = $request->image;
-      $imageName = rand().$image->getClientOriginalName();
-      $image->move(public_path('uploads'), $imageName);
-
-      $path = "/uploads/".$imageName;
-
-      $user->image = $path;
+    if ($request->user()->isDirty('email')) {
+      $request->user()->email_verified_at = null;
     }
 
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->save();
+    $request->user()->save();
 
-    return redirect()->back()->with(
-      'success',
-      'Dados atualizados com sucesso.'
-    );
+    return Redirect::route('profile.edit')->with('status', 'profile-updated');
   }
 
-  public function updatePassword(Request $request)
+  /**
+   * Delete the user's account.
+   */
+  public function destroy(Request $request): RedirectResponse
   {
-    // dd($request->all());
-    $request->validate([
-      'current_password' => ['required', 'current_password'],
-      'password' => ['required', 'confirmed', 'min:8']
+    $request->validateWithBag('userDeletion', [
+      'password' => ['required', 'current_password'],
     ]);
 
-    $request->user()->update([
-      'password' => bcrypt($request->password)
-    ]);
+    $user = $request->user();
 
-    return redirect()->back()->with(
-      'success',
-      'Senha alterada com sucesso.'
-    );
+    Auth::logout();
+
+    $user->delete();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return Redirect::to('/');
   }
 }
