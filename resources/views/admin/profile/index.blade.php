@@ -13,18 +13,6 @@
     <div class="section-body">
       <div class="row mt-sm-4">
         <div class="col-12 col-md-12 col-lg-7">
-          @if ($errors->any())
-            @foreach ($errors->all() as $error)
-            <div class="alert alert-danger">
-              {{ $error }}
-            </div>
-            @endforeach
-          @endif
-          @if (session('success'))
-            <div class="alert alert-success">
-              {{ session('success') }}
-            </div>
-          @endif
           <div class="card">
             <form action="{{ route('admin.profile.update') }}" method="POST"
               class="needs-validation" novalidate="" enctype="multipart/form-data"
