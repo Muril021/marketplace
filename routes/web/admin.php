@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\AdminSliderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])
@@ -26,4 +27,9 @@ Route::middleware(['auth', 'admin'])
     AdminProfileController::class,
     'updatePassword'
   ])->name('admin.profile.password');
+
+  Route::resource(
+    '/slider',
+    AdminSliderController::class
+  );
 });
