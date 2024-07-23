@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\SliderDataTable;
 use App\Models\Slider;
 use App\Traits\UploadImageTrait;
 use Illuminate\Http\Request;
+
+use function Termwind\render;
 
 class AdminSliderController extends Controller
 {
@@ -12,9 +15,10 @@ class AdminSliderController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(SliderDataTable $dataTable)
   {
-    return view('admin.slider.index');
+    // return view('admin.slider.index');
+    return $dataTable->render('admin.slider.index');
   }
 
   /**
