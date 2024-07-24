@@ -40,10 +40,12 @@ class SliderDataTable extends DataTable
       return $edit.$delete;
     })
     ->addColumn('banner', function($query) {
-      return $img = "<img
+      $img = "<img
         src='".asset($query->banner)."'
         class='w-25 h-auto'
       >";
+
+      return $img;
     })
     ->rawColumns(['banner', 'action'])
     ->setRowId('id');
@@ -63,12 +65,15 @@ class SliderDataTable extends DataTable
   public function html(): HtmlBuilder
   {
     return $this->builder()
-    ->setTableId('slider-table')
+    //->setTableId('brasilTraducao')
     ->columns($this->getColumns())
     ->minifiedAjax()
     //->dom('Bfrtip')
     ->orderBy(1)
     ->selectStyleSingle()
+    ->language([
+      'url' => asset('backend/assets/traducao-datatable-brasil/pt-BR.json')
+    ])
     ->buttons([
       Button::make('excel'),
       Button::make('csv'),
