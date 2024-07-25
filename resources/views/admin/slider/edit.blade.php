@@ -44,7 +44,7 @@
                   <label>Capa</label>
                   <br>
                   <img src="{{ asset($slider->banner) }}"
-                    alt="{{ $slider->title_one }}"
+                    alt="{{ $slider->title_one }}" class="img-fluid"
                     style="width:20%; height:auto;"
                   >
                 </div>
