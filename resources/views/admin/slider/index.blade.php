@@ -19,6 +19,7 @@
               <div class="card-header-action">
                 <a href="{{ route('slider.create') }}"
                   class="btn btn-primary">
+                  <i class="fas fa-plus"></i>
                   Novo
                 </a>
               </div>
