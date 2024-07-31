@@ -23,19 +23,20 @@ class SliderDataTable extends DataTable
   {
     return (new EloquentDataTable($query))
     ->addColumn('editar', function($query) {
-      $edit = "<a
+      $edit = "<div class='d-flex justify-content-center'>
+      <a
         href='".route('slider.edit', $query->id)."'
-        class='btn btn-primary mb-2'
+        class='btn btn-primary mr-2'
       >
         <i class='far fa-edit'></i>
       </a>";
 
       $delete = "<a
         href='".route('slider.destroy', $query->id)."'
-        class='btn btn-danger'
+        class='btn btn-danger delete-item'
       >
         <i class='far fa-trash-alt'></i>
-      </a>";
+      </a></div>";
 
       return $edit.$delete;
     })

@@ -59,7 +59,7 @@ class AdminSliderController extends Controller
     $slider->save();
 
     toastr()->success('Cadastrado com sucesso.');
-    return redirect()->back();
+    return redirect()->route('slider.index');
   }
 
   /**
@@ -102,7 +102,8 @@ class AdminSliderController extends Controller
       $request, 'banner', 'uploads', $slider->banner
     );
 
-    $slider->banner = $imagePath;
+    $slider->banner = empty(!$imagePath) ?
+      $imagePath : $slider->banner;
     $slider->title_one = $request->title_one;
     $slider->title_two = $request->title_two;
     $slider->starting_price = $request->starting_price;
@@ -120,6 +121,13 @@ class AdminSliderController extends Controller
    */
   public function destroy(string $id)
   {
-      //
+    $slider = Slider::findOrFail($id);
+    $this->deleteImage($slider->banner);
+    $slider->delete();
+
+    return response([
+      'status' => 'success',
+      'message' => 'Excluído com sucesso.'
+    ]);
   }
 }
