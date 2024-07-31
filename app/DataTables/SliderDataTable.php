@@ -22,7 +22,7 @@ class SliderDataTable extends DataTable
   public function dataTable(QueryBuilder $query): EloquentDataTable
   {
     return (new EloquentDataTable($query))
-    ->addColumn('editar', function($query) {
+    ->addColumn('ações', function($query) {
       $edit = "<div class='d-flex justify-content-center'>
       <a
         href='".route('slider.edit', $query->id)."'
@@ -40,6 +40,12 @@ class SliderDataTable extends DataTable
 
       return $edit.$delete;
     })
+    ->addColumn('status', function($query) {
+      $active = '<i class="badge badge-success">Ativo</i>';
+      $inactive = '<i class="badge badge-danger">Inativo</i>';
+
+      return $query->status == 1 ? $active : $inactive;
+    })
     ->addColumn('banner', function($query) {
       $img = "<img
         src='".asset($query->banner)."'
@@ -48,7 +54,7 @@ class SliderDataTable extends DataTable
 
       return $img;
     })
-    ->rawColumns(['banner', 'editar'])
+    ->rawColumns(['banner', 'ações', 'status'])
     ->setRowId('id');
   }
 
@@ -94,7 +100,8 @@ class SliderDataTable extends DataTable
       Column::make('id'),
       Column::make('banner'),
       Column::make('title_one'),
-      Column::computed('editar')
+      Column::make('status'),
+      Column::computed('ações')
       ->exportable(false)
       ->printable(false)
       ->width(60)
