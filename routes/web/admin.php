@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AdminSliderController;
@@ -31,5 +32,10 @@ Route::middleware(['auth', 'admin'])
   Route::resource(
     '/slider',
     AdminSliderController::class
+  );
+
+  Route::resource(
+    '/category',
+    AdminCategoryController::class
   );
 });
