@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\CategoryDataTable;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Str;
 
 class AdminCategoryController extends Controller
 {
@@ -28,7 +30,24 @@ class AdminCategoryController extends Controller
    */
   public function store(Request $request)
   {
-      //
+    // dd($request->all());
+    $request->validate([
+      'icon' => ['required', 'not_in:empty'],
+      'name' => ['required', 'unique:categories,name', 'max:200'],
+      'status' => ['required']
+    ]);
+
+    $category = new Category;
+
+    $category->icon = $request->icon;
+    $category->name = $request->name;
+    $category->status = $request->status;
+    $category->slug = Str::slug($request->name);
+
+    $category->save();
+
+    toastr('Cadastrado com sucesso.', 'success');
+    return redirect()->route('category.index');
   }
 
   /**
