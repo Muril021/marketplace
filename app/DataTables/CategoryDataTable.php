@@ -41,7 +41,7 @@ class CategoryDataTable extends DataTable
       return $edit.$delete;
     })
     ->addColumn('icon', function ($query) {
-      return "<i class='".$query->icon."'></i>";
+      return "<i class='".$query->icon."' style='font-size: 18px;'></i>";
     })
     ->addColumn('status', function ($query) {
       $active = '<i class="badge badge-success">Ativo</i>';
