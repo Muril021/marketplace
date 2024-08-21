@@ -33,7 +33,7 @@ class CategoryDataTable extends DataTable
 
       $delete = "<a
         href='".route('category.destroy', $query->id)."'
-        class='btn btn-danger'
+        class='btn btn-danger delete-item'
       >
         <i class='far fa-trash-alt'></i>
       </a></div>";
