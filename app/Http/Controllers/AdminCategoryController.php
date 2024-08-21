@@ -63,7 +63,9 @@ class AdminCategoryController extends Controller
    */
   public function edit(string $id)
   {
-      //
+    $category = Category::findOrFail($id);
+
+    return view('admin.category.edit', compact('category'));
   }
 
   /**
@@ -71,7 +73,23 @@ class AdminCategoryController extends Controller
    */
   public function update(Request $request, string $id)
   {
-      //
+    // dd($request->all());
+    $request->validate([
+      'icon' => ['required', 'not_in:empty'],
+      'name' => ['required', 'unique:categories,name,'.$id, 'max:200'],
+      'status' => ['required']
+    ]);
+
+    $category = Category::findOrFail($id);
+
+    $category->icon = $request->icon;
+    $category->name = $request->name;
+    $category->status = $request->status;
+    $category->slug = Str::slug($request->name);
+    $category->save();
+
+    toastr('Atualizado com sucesso.', 'success');
+    return redirect()->route('category.index');
   }
 
   /**
