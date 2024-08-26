@@ -44,10 +44,22 @@ class CategoryDataTable extends DataTable
       return "<i class='".$query->icon."' style='font-size: 18px;'></i>";
     })
     ->addColumn('status', function ($query) {
-      $active = '<i class="badge badge-success">Ativo</i>';
-      $inactive = '<i class="badge badge-danger">Inativo</i>';
 
-      return $query->status == 1 ? $active : $inactive;
+      $checkedButton = '<label class="custom-switch mt-2">
+        <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'"
+          class="custom-switch-input change-status" checked
+        >
+        <span class="custom-switch-indicator"></span>
+      </label>';
+
+      $uncheckedButton = '<label class="custom-switch mt-2">
+        <input type="checkbox" name="custom-switch-checkbox" data-id="'.$query->id.'"
+          class="custom-switch-input change-status"
+        >
+        <span class="custom-switch-indicator"></span>
+      </label>';
+
+      return $query->status == 1 ? $checkedButton : $uncheckedButton;
     })
     ->rawColumns(['icon', 'name', 'status', 'ações'])
     ->setRowId('id');

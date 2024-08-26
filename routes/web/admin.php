@@ -34,6 +34,12 @@ Route::middleware(['auth', 'admin'])
     AdminSliderController::class
   );
 
+  // mudar status
+  Route::put(
+    'change-status',
+    [AdminCategoryController::class, 'changeStatus']
+  )->name('admin.category.change-status');
+
   Route::resource(
     '/category',
     AdminCategoryController::class
