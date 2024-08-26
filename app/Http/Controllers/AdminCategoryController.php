@@ -105,4 +105,16 @@ class AdminCategoryController extends Controller
       'message' => 'Excluído com sucesso.'
     ]);
   }
+
+  public function changeStatus(Request $request)
+  {
+    $category = Category::findOrFail($request->id);
+
+    $category->status = $request->status == 'true' ? 1 : 0;
+    $category->save();
+
+    return response([
+      'message' => 'Status atualizado com sucesso.'
+    ]);
+  }
 }
