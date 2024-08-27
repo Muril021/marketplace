@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\SubCategoryDataTable;
+use App\Models\Category;
+use App\Models\SubCategory;
+use Illuminate\Cache\RedisTagSet;
 use Illuminate\Http\Request;
+use Str;
 
 class AdminSubCategoryController extends Controller
 {
@@ -20,7 +24,9 @@ class AdminSubCategoryController extends Controller
    */
   public function create()
   {
-    return view('admin.subcategory.create');
+    $categories = Category::all();
+
+    return view('admin.subcategory.create', compact('categories'));
   }
 
   /**
@@ -28,7 +34,23 @@ class AdminSubCategoryController extends Controller
    */
   public function store(Request $request)
   {
-      //
+    // dd($request->all());
+    $request->validate([
+      'category_id' => ['required'],
+      'name' => ['required', 'unique:subcategories,name', 'max:200'],
+      'status' => ['required']
+    ]);
+
+    $subcategory = new SubCategory;
+
+    $subcategory->category_id = $request->category_id;
+    $subcategory->name = $request->name;
+    $subcategory->status = $request->status;
+    $subcategory->slug = Str::slug($request->name);
+    $subcategory->save();
+
+    toastr('Cadastrado com sucesso', 'success');
+    return redirect()->route('subcategory.index');
   }
 
   /**
