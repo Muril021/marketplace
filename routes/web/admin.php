@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AdminSliderController;
+use App\Http\Controllers\AdminSubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])
@@ -36,12 +37,20 @@ Route::middleware(['auth', 'admin'])
 
   // mudar status
   Route::put(
-    'change-status',
+    'category/change-status',
     [AdminCategoryController::class, 'changeStatus']
   )->name('admin.category.change-status');
-
   Route::resource(
     '/category',
     AdminCategoryController::class
+  );
+
+  Route::put(
+    'subcategory/change-status',
+    [AdminSubCategoryController::class, 'changeStatus']
+  )->name('admin.subcategory.change-status');
+  Route::resource(
+    '/subcategory',
+    AdminSubCategoryController::class
   );
 });
