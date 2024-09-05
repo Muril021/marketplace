@@ -84,4 +84,16 @@ class AdminSubCategoryController extends Controller
   {
       //
   }
+
+  public function changeStatus(Request $request)
+  {
+    $subcategory = SubCategory::findOrFail($request->id);
+
+    $subcategory->status = $request->status == 'true' ? 1 : 0;
+    $subcategory->save();
+
+    return response([
+      'message' => 'Status atualizado com sucesso.'
+    ]);
+  }
 }
