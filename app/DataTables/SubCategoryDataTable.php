@@ -25,14 +25,14 @@ class SubCategoryDataTable extends DataTable
     ->addColumn('ações', function ($query) {
       $edit = "<div class='d-flex justify-content-center'>
       <a
-        href='".route('category.edit', $query->id)."'
+        href='".route('subcategory.edit', $query->id)."'
         class='btn btn-primary mr-2'
       >
         <i class='far fa-edit'></i>
       </a>";
 
       $delete = "<a
-        href='".route('category.destroy', $query->id)."'
+        href='".route('subcategory.destroy', $query->id)."'
         class='btn btn-danger delete-item'
       >
         <i class='far fa-trash-alt'></i>
@@ -40,8 +40,11 @@ class SubCategoryDataTable extends DataTable
 
       return $edit.$delete;
     })
-    ->addColumn('icon', function ($query) {
-      return "<i class='".$query->icon."' style='font-size: 18px;'></i>";
+    ->addColumn('nome', function ($query) {
+      return $query->name;
+    })
+    ->addColumn('categoria', function ($query) {
+      return $query->category ? $query->category->name : null;
     })
     ->addColumn('status', function ($query) {
 
@@ -61,7 +64,7 @@ class SubCategoryDataTable extends DataTable
 
       return $query->status == 1 ? $checkedButton : $uncheckedButton;
     })
-    ->rawColumns(['icon', 'name', 'status', 'ações'])
+    ->rawColumns(['nome', 'status', 'categoria', 'ações'])
     ->setRowId('id');
   }
 
@@ -105,13 +108,13 @@ class SubCategoryDataTable extends DataTable
   {
     return [
       Column::make('id'),
-      Column::make('icon'),
-      Column::make('name'),
+      Column::make('nome'),
       Column::make('status'),
+      Column::make('categoria'),
       Column::computed('ações')
         ->exportable(false)
         ->printable(false)
-        ->width(60)
+        ->width(200)
         ->addClass('text-center'),
     ];
   }
