@@ -35,30 +35,41 @@
               </div>
             </div>
             <div class="card-body">
-              <form action="{{ route('subcategory.update', $category->id) }}" method="POST"
+              <form action="{{ route('subcategory.update', $subcategory->id) }}" method="POST"
                 enctype="multipart/form-data"
               >
                 @csrf
                 @method('PUT')
-                </div>
                 <div class="form-group">
                   <label>Nome</label>
                   <input type="text" name="name" placeholder="Nome da Categoria"
-                    class="form-control" value="{{ old('name', $category->name) }}"
+                    class="form-control" value="{{ old('name', $subcategory->name) }}"
                   >
+                </div>
+                <div class="form-group">
+                  <label>Categoria</label>
+                  <select name="category_id" class="form-control">
+                    @foreach ($categories as $category)
+                      <option value="{{ $category->id }}"
+                        {{ $category->id == $subcategory->category_id ? 'selected' : null }}
+                      >
+                        {{ $category->name }}
+                      </option>
+                    @endforeach
+                  </select>
                 </div>
                 <div class="form-group">
                   <label>Status</label>
                   <select name="status" class="form-control">
                     <option
                       value="1"
-                      {{ $category->status == 1 ? 'selected' : null }}
+                      {{ $subcategory->status == 1 ? 'selected' : null }}
                     >
                       Ativo
                     </option>
                     <option
                       value="0"
-                      {{ $category->status == 0 ? 'selected' : null }}
+                      {{ $subcategory->status == 0 ? 'selected' : null }}
                     >
                       Inativo
                     </option>
