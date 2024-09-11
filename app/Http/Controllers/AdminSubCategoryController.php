@@ -101,7 +101,13 @@ class AdminSubCategoryController extends Controller
    */
   public function destroy(string $id)
   {
-      //
+    $subcategory = SubCategory::findOrFail($id);
+    $subcategory->delete();
+
+    return response([
+      'status' => 'success',
+      'message' => 'Excluído com sucesso.'
+    ]);
   }
 
   public function changeStatus(Request $request)
