@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\SubCategory;
+use App\Models\Microcategory;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SubCategoryDataTable extends DataTable
+class MicrocategoryDataTable extends DataTable
 {
   /**
    * Build the DataTable class.
@@ -71,7 +71,7 @@ class SubCategoryDataTable extends DataTable
   /**
    * Get the query source of dataTable.
    */
-  public function query(SubCategory $model): QueryBuilder
+  public function query(Microcategory $model): QueryBuilder
   {
     return $model->newQuery();
   }
@@ -124,6 +124,6 @@ class SubCategoryDataTable extends DataTable
    */
   protected function filename(): string
   {
-    return 'Category_' . date('YmdHis');
+    return 'Microcategory_' . date('YmdHis');
   }
 }

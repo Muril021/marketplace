@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\SubCategoryDataTable;
+use App\DataTables\SubcategoryDataTable;
 use App\Models\Category;
-use App\Models\SubCategory;
-use Illuminate\Cache\RedisTagSet;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Str;
 
-class AdminSubCategoryController extends Controller
+class AdminSubcategoryController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
-  public function index(SubCategoryDataTable $dataTable)
+  public function index(SubcategoryDataTable $dataTable)
   {
     return $dataTable->render('admin.subcategory.index');
   }
@@ -41,7 +40,7 @@ class AdminSubCategoryController extends Controller
       'status' => ['required']
     ]);
 
-    $subcategory = new SubCategory;
+    $subcategory = new Subcategory;
 
     $subcategory->category_id = $request->category_id;
     $subcategory->name = $request->name;
@@ -67,7 +66,7 @@ class AdminSubCategoryController extends Controller
   public function edit(string $id)
   {
     $categories = Category::all();
-    $subcategory = SubCategory::findOrFail($id);
+    $subcategory = Subcategory::findOrFail($id);
 
     return view('admin.subcategory.edit', compact('subcategory', 'categories'));
   }
@@ -84,7 +83,7 @@ class AdminSubCategoryController extends Controller
       'status' => ['required']
     ]);
 
-    $subcategory = SubCategory::findOrFail($id);
+    $subcategory = Subcategory::findOrFail($id);
 
     $subcategory->category_id = $request->category_id;
     $subcategory->name = $request->name;
@@ -101,7 +100,7 @@ class AdminSubCategoryController extends Controller
    */
   public function destroy(string $id)
   {
-    $subcategory = SubCategory::findOrFail($id);
+    $subcategory = Subcategory::findOrFail($id);
     $subcategory->delete();
 
     return response([
@@ -112,7 +111,7 @@ class AdminSubCategoryController extends Controller
 
   public function changeStatus(Request $request)
   {
-    $subcategory = SubCategory::findOrFail($request->id);
+    $subcategory = Subcategory::findOrFail($request->id);
 
     $subcategory->status = $request->status == 'true' ? 1 : 0;
     $subcategory->save();
