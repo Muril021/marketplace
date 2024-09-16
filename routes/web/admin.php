@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminMicrocategoryController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AdminSliderController;
-use App\Http\Controllers\AdminSubCategoryController;
+use App\Http\Controllers\AdminSubcategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])
@@ -35,7 +36,7 @@ Route::middleware(['auth', 'admin'])
     AdminSliderController::class
   );
 
-  // mudar status
+  // mudar status category
   Route::put(
     'category/change-status',
     [AdminCategoryController::class, 'changeStatus']
@@ -45,12 +46,27 @@ Route::middleware(['auth', 'admin'])
     AdminCategoryController::class
   );
 
+  // mudar status subcategory
   Route::put(
     'subcategory/change-status',
-    [AdminSubCategoryController::class, 'changeStatus']
+    [AdminSubcategoryController::class, 'changeStatus']
   )->name('admin.subcategory.change-status');
   Route::resource(
     '/subcategory',
-    AdminSubCategoryController::class
+    AdminSubcategoryController::class
+  );
+
+  // mudar status microcategory
+  Route::put(
+    'microcategory/change-status',
+    [AdminMicrocategoryController::class, 'changeStatus']
+  )->name('admin.microcategory.change-status');
+  Route::get(
+    'get-subcategories',
+    [AdminMicrocategoryController::class, 'getSubcategories']
+  )->name('admin.microcategory.get-subcategories');
+  Route::resource(
+    '/microcategory',
+    AdminMicrocategoryController::class
   );
 });
