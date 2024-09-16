@@ -52,14 +52,14 @@
                 </div>
                 <div class="form-group">
                   <label>Subcategoria</label>
-                  <select name="category_id" class="form-control subcategory">
+                  <select name="subcategory_id" class="form-control subcategory">
                     <option value="">Selecione</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Nome</label>
                   <input type="text" name="name"
-                    placeholder="Nome da Subcategoria" class="form-control"
+                    placeholder="Nome da Microcategoria" class="form-control"
                   >
                 </div>
                 <div class="form-group">
