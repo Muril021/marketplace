@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\MicrocategoryDataTable;
 use App\Models\Category;
+use App\Models\Microcategory;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Str;
 
 class AdminMicrocategoryController extends Controller
 {
@@ -32,7 +34,25 @@ class AdminMicrocategoryController extends Controller
    */
   public function store(Request $request)
   {
-      //
+    // dd($request->all());
+    $request->validate([
+      'category_id' => ['required'],
+      'subcategory_id' => ['required'],
+      'name' => ['required', 'max:200', 'unique:microcategories,name'],
+      'status' => ['required'],
+    ]);
+
+    $microcategory = new Microcategory;
+
+    $microcategory->category_id = $request->category_id;
+    $microcategory->subcategory_id = $request->subcategory_id;
+    $microcategory->name = $request->name;
+    $microcategory->slug = Str::slug($request->name);
+    $microcategory->status = $request->status;
+    $microcategory->save();
+
+    toastr('Cadastrado com sucesso.', 'success');
+    return redirect()->route('microcategory.index');
   }
 
   /**
