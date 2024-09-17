@@ -46,6 +46,9 @@ class MicrocategoryDataTable extends DataTable
     ->addColumn('categoria', function ($query) {
       return $query->category ? $query->category->name : null;
     })
+    ->addColumn('subcategoria', function ($query) {
+      return $query->subcategory ? $query->subcategory->name : null;
+    })
     ->addColumn('status', function ($query) {
 
       $checkedButton = '<label class="custom-switch mt-2">
@@ -64,7 +67,7 @@ class MicrocategoryDataTable extends DataTable
 
       return $query->status == 1 ? $checkedButton : $uncheckedButton;
     })
-    ->rawColumns(['nome', 'status', 'categoria', 'ações'])
+    ->rawColumns(['nome', 'categoria', 'subcategoria', 'status', 'ações'])
     ->setRowId('id');
   }
 
@@ -109,8 +112,9 @@ class MicrocategoryDataTable extends DataTable
     return [
       Column::make('id'),
       Column::make('nome'),
-      Column::make('status'),
       Column::make('categoria'),
+      Column::make('subcategoria'),
+      Column::make('status'),
       Column::computed('ações')
         ->exportable(false)
         ->printable(false)
