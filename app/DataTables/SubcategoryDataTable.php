@@ -64,7 +64,7 @@ class SubcategoryDataTable extends DataTable
 
       return $query->status == 1 ? $checkedButton : $uncheckedButton;
     })
-    ->rawColumns(['nome', 'status', 'categoria', 'ações'])
+    ->rawColumns(['nome', 'categoria', 'status', 'ações'])
     ->setRowId('id');
   }
 
@@ -109,8 +109,8 @@ class SubcategoryDataTable extends DataTable
     return [
       Column::make('id'),
       Column::make('nome'),
-      Column::make('status'),
       Column::make('categoria'),
+      Column::make('status'),
       Column::computed('ações')
         ->exportable(false)
         ->printable(false)
