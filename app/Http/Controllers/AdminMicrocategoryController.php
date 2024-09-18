@@ -90,4 +90,16 @@ class AdminMicrocategoryController extends Controller
   {
       //
   }
+
+  public function changeStatus(Request $request)
+  {
+    $microcategory = Microcategory::findOrFail($request->id);
+
+    $microcategory->status = $request->status == 'true' ? 1 : 0;
+    $microcategory->save();
+
+    return response([
+      'message' => 'Status atualizado com sucesso.'
+    ]);
+  }
 }
