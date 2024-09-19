@@ -25,7 +25,7 @@ class MicrocategoryDataTable extends DataTable
     ->addColumn('ações', function ($query) {
       $edit = "<div class='d-flex justify-content-center'>
       <a
-        href='".route('subcategory.edit', $query->id)."'
+        href='".route('microcategory.edit', $query->id)."'
         class='btn btn-primary mr-2'
       >
         <i class='far fa-edit'></i>

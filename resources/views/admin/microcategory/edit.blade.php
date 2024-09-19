@@ -2,7 +2,7 @@
 @section('content')
   <section class="section">
     <div class="section-header">
-      <h1>Editar Subcategoria</h1>
+      <h1>Editar Microcategoria</h1>
       <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active">
           <a href="{{ route('admin.dashboard') }}">
@@ -10,7 +10,7 @@
           </a>
         </div>
         <div class="breadcrumb-item active">
-          <a href="{{ route('subcategory.index') }}">
+          <a href="{{ route('microcategory.index') }}">
             Listar
           </a>
         </div>
@@ -35,23 +35,18 @@
               </div>
             </div>
             <div class="card-body">
-              <form action="{{ route('subcategory.update', $subcategory->id) }}" method="POST"
-                enctype="multipart/form-data"
+              <form action="{{ route('microcategory.update', $microcategory->id) }}"
+                method="POST" enctype="multipart/form-data"
               >
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" name="name" placeholder="Nome da Categoria"
-                    class="form-control" value="{{ old('name', $subcategory->name) }}"
-                  >
-                </div>
-                <div class="form-group">
                   <label>Categoria</label>
-                  <select name="category_id" class="form-control">
+                  <select name="category_id" class="form-control category">
+                    <option>Selecione</option>
                     @foreach ($categories as $category)
                       <option value="{{ $category->id }}"
-                        {{ $category->id == $subcategory->category_id ? 'selected' : null }}
+                      {{ $category->id == $microcategory->category_id ? 'selected' : null }}
                       >
                         {{ $category->name }}
                       </option>
@@ -59,17 +54,36 @@
                   </select>
                 </div>
                 <div class="form-group">
+                  <label>Subcategoria</label>
+                  <select name="subcategory_id" class="form-control subcategory">
+                    <option>Selecione</option>
+                    @foreach ($subcategories as $subcategory)
+                      <option value="{{ $subcategory->id }}"
+                        {{ $subcategory->id == $microcategory->subcategory_id ? 'selected' : null }}
+                      >
+                        {{ $subcategory->name }}
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Nome</label>
+                  <input type="text" name="name" placeholder="Nome da Microcategoria"
+                    class="form-control" value="{{ old('name', $microcategory->name) }}"
+                  >
+                </div>
+                <div class="form-group">
                   <label>Status</label>
                   <select name="status" class="form-control">
                     <option
                       value="1"
-                      {{ $subcategory->status == 1 ? 'selected' : null }}
+                      {{ $microcategory->status == 1 ? 'selected' : null }}
                     >
                       Ativo
                     </option>
                     <option
                       value="0"
-                      {{ $subcategory->status == 0 ? 'selected' : null }}
+                      {{ $microcategory->status == 0 ? 'selected' : null }}
                     >
                       Inativo
                     </option>
@@ -86,3 +100,31 @@
     </div>
   </section>
 @endsection
+@push('scripts')
+  <script>
+    $(document).ready(function () {
+      $('body').on('change', '.category', function (m) {
+        // alert('OK');
+        let id = $(this).val();
+        $.ajax({
+          method: 'GET',
+          url: "{{ route('admin.microcategory.get-subcategories') }}",
+          data: {
+            id: id,
+          },
+          success: function (data) {
+            $('.subcategory').html(`<option value="">Selecione</option>`);
+            $.each(data, function (i, item) {
+              $('.subcategory').append(`
+                <option value="${item.id}">${item.name}</option>
+              `);
+            });
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      });
+    });
+  </script>
+@endpush

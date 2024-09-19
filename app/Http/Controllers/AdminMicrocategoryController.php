@@ -72,7 +72,15 @@ class AdminMicrocategoryController extends Controller
    */
   public function edit(string $id)
   {
-      //
+    $categories = Category::all();
+    $microcategory = Microcategory::findOrFail($id);
+    $subcategories = Subcategory::where('category_id', $microcategory->category_id)
+      ->get();
+
+    return view(
+      'admin.microcategory.edit',
+      compact('categories', 'microcategory', 'subcategories')
+    );
   }
 
   /**
@@ -80,7 +88,24 @@ class AdminMicrocategoryController extends Controller
    */
   public function update(Request $request, string $id)
   {
-      //
+    $request->validate([
+      'category_id' => ['required'],
+      'subcategory_id' => ['required'],
+      'name' => ['required', 'max:200', 'unique:microcategories,name,'.$id],
+      'status' => ['required'],
+    ]);
+
+    $microcategory = Microcategory::findOrFail($id);
+
+    $microcategory->category_id = $request->category_id;
+    $microcategory->subcategory_id = $request->subcategory_id;
+    $microcategory->name = $request->name;
+    $microcategory->slug = Str::slug($request->name);
+    $microcategory->status = $request->status;
+    $microcategory->save();
+
+    toastr('Atualizado com sucesso', 'success');
+    return redirect()->route('microcategory.index');
   }
 
   /**
