@@ -113,7 +113,13 @@ class AdminMicrocategoryController extends Controller
    */
   public function destroy(string $id)
   {
-      //
+    $microcategory = Microcategory::findOrFail($id);
+    $microcategory->delete();
+
+    return response([
+      'status' => 'success',
+      'message' => 'Excluído com sucesso.'
+    ]);
   }
 
   public function changeStatus(Request $request)
