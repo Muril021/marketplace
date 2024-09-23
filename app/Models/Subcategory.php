@@ -15,4 +15,18 @@ class Subcategory extends Model
   {
     return $this->belongsTo(Category::class, 'category_id');
   }
+
+  public function microcategories()
+  {
+    return $this->hasMany(Microcategory::class, 'subcategory_id');
+  }
+
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::deleting(function ($subcategory) {
+      $subcategory->microcategories()->delete();
+    });
+  }
 }
