@@ -32,7 +32,7 @@ class MicrocategoryDataTable extends DataTable
       </a>";
 
       $delete = "<a
-        href='".route('subcategory.destroy', $query->id)."'
+        href='".route('microcategory.destroy', $query->id)."'
         class='btn btn-danger delete-item'
       >
         <i class='far fa-trash-alt'></i>
